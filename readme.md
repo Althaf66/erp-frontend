@@ -1,0 +1,1 @@
+npx -y http-server e:\Code\no_code_erp -p 3000 -c-1
