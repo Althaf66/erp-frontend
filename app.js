@@ -424,9 +424,10 @@ class ERPApplication {
       state.data.customers = response.items || response || [];
       this.renderCustomersTable();
     } catch (error) {
-      console.log('Using demo data for customers');
-      state.data.customers = this.getMockData('customers');
+      console.error('Failed to load customers:', error);
+      state.data.customers = [];
       this.renderCustomersTable();
+      this.showToast('Failed to load customers', 'error');
     }
   }
 
@@ -436,9 +437,10 @@ class ERPApplication {
       state.data.suppliers = response.items || response || [];
       this.renderSuppliersTable();
     } catch (error) {
-      console.log('Using demo data for suppliers');
-      state.data.suppliers = this.getMockData('suppliers');
+      console.error('Failed to load suppliers:', error);
+      state.data.suppliers = [];
       this.renderSuppliersTable();
+      this.showToast('Failed to load suppliers', 'error');
     }
   }
 
@@ -448,9 +450,10 @@ class ERPApplication {
       state.data.items = response.items || response || [];
       this.renderItemsTable();
     } catch (error) {
-      console.log('Using demo data for items');
-      state.data.items = this.getMockData('items');
+      console.error('Failed to load items:', error);
+      state.data.items = [];
       this.renderItemsTable();
+      this.showToast('Failed to load items', 'error');
     }
   }
 
@@ -460,9 +463,10 @@ class ERPApplication {
       state.data.orders = response.items || response || [];
       this.renderOrdersTable();
     } catch (error) {
-      console.log('Using demo data for orders');
-      state.data.orders = this.getMockData('orders');
+      console.error('Failed to load orders:', error);
+      state.data.orders = [];
       this.renderOrdersTable();
+      this.showToast('Failed to load orders', 'error');
     }
   }
 
@@ -472,9 +476,10 @@ class ERPApplication {
       state.data.purchases = response.items || response || [];
       this.renderPurchasesTable();
     } catch (error) {
-      console.log('Using demo data for purchases');
-      state.data.purchases = this.getMockData('purchases');
+      console.error('Failed to load purchases:', error);
+      state.data.purchases = [];
       this.renderPurchasesTable();
+      this.showToast('Failed to load purchases', 'error');
     }
   }
 
@@ -484,9 +489,10 @@ class ERPApplication {
       state.data.expenses = response.items || response || [];
       this.renderExpensesTable();
     } catch (error) {
-      console.log('Using demo data for expenses');
-      state.data.expenses = this.getMockData('expenses');
+      console.error('Failed to load expenses:', error);
+      state.data.expenses = [];
       this.renderExpensesTable();
+      this.showToast('Failed to load expenses', 'error');
     }
   }
 
@@ -496,9 +502,10 @@ class ERPApplication {
       state.data.invoices = response.items || response || [];
       this.renderInvoicesTable();
     } catch (error) {
-      console.log('Using demo data for invoices');
-      state.data.invoices = this.getMockData('invoices');
+      console.error('Failed to load invoices:', error);
+      state.data.invoices = [];
       this.renderInvoicesTable();
+      this.showToast('Failed to load invoices', 'error');
     }
   }
 
@@ -508,9 +515,10 @@ class ERPApplication {
       state.data.employees = response.items || response || [];
       this.renderEmployeesTable();
     } catch (error) {
-      console.log('Using demo data for employees');
-      state.data.employees = this.getMockData('employees');
+      console.error('Failed to load employees:', error);
+      state.data.employees = [];
       this.renderEmployeesTable();
+      this.showToast('Failed to load employees', 'error');
     }
   }
 
@@ -521,61 +529,13 @@ class ERPApplication {
       const response = await this.apiCall(`/salary_payment?employee_id=${employeeId}${bParam ? '&business_id=' + state.currentBusinessId : ''}`);
       state.data.salary_payments = response.items || response || [];
     } catch (error) {
-      console.log('Using demo data for salary payments');
-      state.data.salary_payments = this.getMockData('salary_payments').filter(sp => sp.employee_id === employeeId);
+      console.error('Failed to load salary payments:', error);
+      state.data.salary_payments = [];
+      this.showToast('Failed to load salary payments', 'error');
     }
     this.renderSalaryHistoryTable();
   }
 
-  // Mock Data (for demo - replace with actual API calls)
-  getMockData(type) {
-    const mockData = {
-      customers: [
-        { id: 1, name: 'Acme Corporation', email: 'contact@acme.com', phone: '+91 98765 43210', balance: 15000 },
-        { id: 2, name: 'TechStart Inc.', email: 'info@techstart.com', phone: '+91 87654 32109', balance: 8500 },
-        { id: 3, name: 'Global Traders', email: 'sales@globaltraders.com', phone: '+91 76543 21098', balance: 22000 }
-      ],
-      suppliers: [
-        { id: 1, name: 'Raw Materials Ltd.', email: 'orders@rawmaterials.com', phone: '+91 98765 11111', balance: 45000 },
-        { id: 2, name: 'Parts Supplier Co.', email: 'sales@partssupplier.com', phone: '+91 87654 22222', balance: 18000 }
-      ],
-      items: [
-        { id: 1, name: 'Widget A', sku: 'WDG-001', sale_price: 299, purchase_price: 150, stock_quantity: 150 },
-        { id: 2, name: 'Gadget B', sku: 'GDG-002', sale_price: 599, purchase_price: 350, stock_quantity: 75 },
-        { id: 3, name: 'Component C', sku: 'CMP-003', sale_price: 149, purchase_price: 80, stock_quantity: 500 }
-      ],
-      orders: [
-        { id: 1, order_number: 'ORD-001', customer_id: 1, customer_name: 'Acme Corporation', order_date: '2026-02-08', total_amount: 5970, status: 'confirmed' },
-        { id: 2, order_number: 'ORD-002', customer_id: 2, customer_name: 'TechStart Inc.', order_date: '2026-02-07', total_amount: 2990, status: 'shipped' },
-        { id: 3, order_number: 'ORD-003', customer_id: 3, customer_name: 'Global Traders', order_date: '2026-02-06', total_amount: 8950, status: 'delivered' }
-      ],
-      purchases: [
-        { id: 1, purchase_number: 'PUR-001', supplier_id: 1, supplier_name: 'Raw Materials Ltd.', purchase_date: '2026-02-05', total_amount: 25000, status: 'received' },
-        { id: 2, purchase_number: 'PUR-002', supplier_id: 2, supplier_name: 'Parts Supplier Co.', purchase_date: '2026-02-04', total_amount: 12500, status: 'confirmed' }
-      ],
-      expenses: [
-        { id: 1, expense_number: 'EXP-001', category: 'Office Supplies', amount: 2500, expense_date: '2026-02-08', payment_method: 'card' },
-        { id: 2, expense_number: 'EXP-002', category: 'Utilities', amount: 8500, expense_date: '2026-02-05', payment_method: 'bank' },
-        { id: 3, expense_number: 'EXP-003', category: 'Travel', amount: 15000, expense_date: '2026-02-01', payment_method: 'upi' }
-      ],
-      invoices: [
-        { id: 1, invoice_number: 'INV-001', customer_id: 1, customer_name: 'Acme Corporation', invoice_date: '2026-02-08', total_amount: 5970, status: 'sent' },
-        { id: 2, invoice_number: 'INV-002', customer_id: 2, customer_name: 'TechStart Inc.', invoice_date: '2026-02-07', total_amount: 2990, status: 'paid' }
-      ],
-      employees: [
-        { id: 1, name: 'Rahul Sharma', email: 'rahul@company.com', phone: '+91 99887 76655', department: 'Engineering', designation: 'Senior Developer', date_of_joining: '2024-03-15', monthly_salary: 85000, bank_account: 'HDFC-XXXX1234', address: 'Mumbai, MH' },
-        { id: 2, name: 'Priya Patel', email: 'priya@company.com', phone: '+91 88776 65544', department: 'Marketing', designation: 'Marketing Manager', date_of_joining: '2024-06-01', monthly_salary: 65000, bank_account: 'ICICI-XXXX5678', address: 'Delhi, DL' },
-        { id: 3, name: 'Amit Kumar', email: 'amit@company.com', phone: '+91 77665 54433', department: 'Sales', designation: 'Sales Executive', date_of_joining: '2025-01-10', monthly_salary: 45000, bank_account: 'SBI-XXXX9012', address: 'Bangalore, KA' }
-      ],
-      salary_payments: [
-        { id: 1, employee_id: 1, employee_name: 'Rahul Sharma', amount: 85000, payment_date: '2026-01-31', payment_method: 'bank', month: 'January', year: 2026, notes: 'Monthly salary' },
-        { id: 2, employee_id: 2, employee_name: 'Priya Patel', amount: 65000, payment_date: '2026-01-31', payment_method: 'bank', month: 'January', year: 2026, notes: 'Monthly salary' },
-        { id: 3, employee_id: 1, employee_name: 'Rahul Sharma', amount: 85000, payment_date: '2025-12-31', payment_method: 'bank', month: 'December', year: 2025, notes: 'Monthly salary' }
-      ]
-    };
-
-    return mockData[type] || [];
-  }
 
   // Table Rendering
   renderCustomersTable() {
@@ -785,8 +745,8 @@ class ERPApplication {
       await this.apiCall(`/salary_payment/${id}`, 'DELETE');
       this.showToast('Salary payment deleted', 'success');
     } catch (error) {
-      state.data.salary_payments = state.data.salary_payments.filter(sp => sp.id !== id);
-      this.showToast('Salary payment deleted (Demo Mode)', 'success');
+      console.error('Failed to delete salary payment:', error);
+      this.showToast(`Failed to delete salary payment: ${error.message}`, 'error');
     }
     this.hideLoading();
     if (state.viewingSalaryEmployeeId) {
@@ -1430,19 +1390,10 @@ class ERPApplication {
         this.showToast(`${this.capitalize(type)} added successfully`, 'success');
       }
     } catch (error) {
-      // Demo mode: update local data
-      console.log('API unavailable, using demo mode for save');
-      if (state.editingId) {
-        const index = state.data[dataKey].findIndex(item => item.id === state.editingId);
-        if (index !== -1) {
-          state.data[dataKey][index] = { ...state.data[dataKey][index], ...data };
-        }
-        this.showToast(`${this.capitalize(type)} updated (Demo Mode)`, 'success');
-      } else {
-        const newId = Math.max(0, ...state.data[dataKey].map(item => item.id)) + 1;
-        state.data[dataKey].push({ id: newId, ...data });
-        this.showToast(`${this.capitalize(type)} added (Demo Mode)`, 'success');
-      }
+      console.error('Failed to save record:', error);
+      this.showToast(`Failed to save ${type}: ${error.message}`, 'error');
+      this.hideLoading();
+      return;
     }
 
     this.hideLoading();
@@ -1474,10 +1425,8 @@ class ERPApplication {
       await this.apiCall(endpoint, 'DELETE');
       this.showToast(`${this.capitalize(type)} deleted successfully`, 'success');
     } catch (error) {
-      // Demo mode: delete from local data
-      console.log('API unavailable, using demo mode for delete');
-      state.data[dataKey] = state.data[dataKey].filter(item => item.id !== id);
-      this.showToast(`${this.capitalize(type)} deleted (Demo Mode)`, 'success');
+      console.error('Failed to delete record:', error);
+      this.showToast(`Failed to delete ${type}: ${error.message}`, 'error');
     }
 
     this.hideLoading();
